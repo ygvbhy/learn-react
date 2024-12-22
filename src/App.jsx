@@ -1,18 +1,12 @@
 import "./App.css";
-import Header from "./components/Header";
-import Main from "./components/Main";
-import Footer from "./components/Footer";
+import CourseCard from "./components/course/CourseCard";
 
-function App() {
-  // const [count, setCount] = useState(0);
-
+const App = () => {
   return (
-    <>
-      <Header />
-      <Main />
-      <Footer />
-    </>
+    <main>
+      <CourseCard />
+    </main>
   );
-}
+};
 
 export default App;

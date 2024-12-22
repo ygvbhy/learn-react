@@ -1,11 +1,11 @@
 import Counter from "./Counter";
 
-function Main() {
+const Main = () => {
   return (
     <main>
       <Counter />
     </main>
   );
-}
+};
 
 export default Main;
