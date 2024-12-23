@@ -1,5 +1,13 @@
 import { Course } from "../../types";
 
+const LinkIcon = ({ link }: { link: string }) => {
+  return (
+    <a href={link} className="btn" target="_blank">
+      <img src="/img/link-icon.svg" className="btn__img" alt="링크" />
+    </a>
+  );
+};
+
 const CourseItem = ({ course }: { course: Course }) => {
   // const isEmpty = false;
   // if (isEmpty) {
@@ -12,6 +20,20 @@ const CourseItem = ({ course }: { course: Course }) => {
       <div className="course__body">
         <div className="course__title">{course.title}</div>
         <div className="course__description">{course.description}</div>
+      </div>
+      <div className="course__icons">
+        <button className="btn">
+          <img
+            src={
+              course.isFavorite
+                ? "/img/heart-fill-icon.svg"
+                : "/img/heart-icon.svg"
+            }
+            className="btn__img"
+            alt="좋아요"
+          />
+        </button>
+        {course.link && <LinkIcon link={course.link} />}
       </div>
     </article>
   );
