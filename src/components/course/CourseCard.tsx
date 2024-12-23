@@ -1,17 +1,14 @@
+import { Course } from "../../types";
 import CourseItem from "./CourseItem";
+import Card from "../Card";
 
-const CourseCard = () => {
+const CourseCard = ({ courses }: { courses: Course[] }) => {
   return (
-    <div className="card">
-      <div className="card__header">강의 목록</div>
-      <div className="card__body">
-        <div className="courses">
-          <CourseItem />
-          <CourseItem />
-          <CourseItem />
-        </div>
-      </div>
-    </div>
+    <Card title="강의 목록">
+      {courses.map((item, index) => (
+        <CourseItem course={item} key={index} />
+      ))}
+    </Card>
   );
 };
 
