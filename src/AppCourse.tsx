@@ -1,4 +1,4 @@
-import "./App.css";
+import "./AppCourse.css";
 import CourseCard from "./components/course/CourseCard";
 import React from "react";
 import { Course } from "./types";

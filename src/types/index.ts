@@ -6,3 +6,8 @@ export interface Course {
   isFavorite: boolean;
   link?: string;
 }
+
+export interface Todo {
+  id: number;
+  label: string;
+}
