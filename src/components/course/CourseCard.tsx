@@ -5,8 +5,8 @@ import Card from "../Card";
 const CourseCard = ({ courses }: { courses: Course[] }) => {
   return (
     <Card title="강의 목록">
-      {courses.map((item, index) => (
-        <CourseItem course={item} key={index} />
+      {courses.map((item) => (
+        <CourseItem course={item} key={item.id} />
       ))}
     </Card>
   );
