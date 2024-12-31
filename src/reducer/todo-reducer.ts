@@ -1,29 +1,28 @@
 import { Todo, TodoAction } from "../types";
 
-export default function todoReducer(todos: Todo[], action: TodoAction) {
+export default function todoReducer(draft: Todo[], action: TodoAction) {
   switch (action.type) {
     case "added": {
       const { newTodo } = action;
-      return [...todos, newTodo];
+      draft.push(newTodo);
+      break;
     }
     case "added_index": {
       const { insertAt, nextId, todoText } = action;
-      return [
-        ...todos.slice(0, insertAt),
-        { id: nextId, text: todoText, done: false },
-        ...todos.slice(insertAt),
-      ];
+      draft.splice(insertAt, 0, { id: nextId, text: todoText, done: false });
+      break;
     }
     case "deleted": {
       const { id } = action;
-      return todos.filter((todo) => todo.id !== id);
+      // draft
+      return draft.filter((todo) => todo.id !== id);
     }
     case "done": {
       const { id, done } = action;
-      return todos.map((todo) => (todo.id === id ? { ...todo, done } : todo));
+      return draft.map((todo) => (todo.id === id ? { ...todo, done } : todo));
     }
     case "reversed": {
-      return todos.toReversed();
+      return draft.toReversed();
     }
     default: {
       throw Error("알 수 없는 액션 타입입니다.");

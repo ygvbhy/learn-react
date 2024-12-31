@@ -1,12 +1,13 @@
-import { useReducer, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import TodoList from "./components/todo/TodoList";
 import todoReducer from "./reducer/todo-reducer";
+import { useImmerReducer } from "use-immer";
 
 const AppTodo = () => {
   const [todoText, setTodoText] = useState("");
   // const [todos, setTodos] = useState();
-  const [todos, dispatch] = useReducer(todoReducer, [
+  const [todos, dispatch] = useImmerReducer(todoReducer, [
     { id: 0, text: "HTML&CSS 공부하기", done: false },
     { id: 1, text: "JavaScript 공부하기", done: false },
   ]);
