@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import "./App.css";
 import TodoList from "./components/todo/TodoList";
+import todoReducer from "./reducer/todo-reducer";
 
 const AppTodo = () => {
   const [todoText, setTodoText] = useState("");
-  const [todos, setTodos] = useState([
+  // const [todos, setTodos] = useState();
+  const [todos, dispatch] = useReducer(todoReducer, [
     { id: 0, text: "HTML&CSS 공부하기", done: false },
     { id: 1, text: "JavaScript 공부하기", done: false },
   ]);
@@ -17,7 +19,7 @@ const AppTodo = () => {
   const handleAddTodo = () => {
     const nextId = todos.length;
     const newTodo = { id: nextId, text: todoText, done: false };
-    setTodos([...todos, newTodo]);
+    dispatch({ type: "added", newTodo });
     setTodoText(""); // null, undefined 동작 안함
   };
 
@@ -28,27 +30,21 @@ const AppTodo = () => {
   };
 
   const handleDeleteTodo = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    dispatch({ type: "deleted", id });
   };
 
   const handleToggleTodo = (id: number, done: boolean) => {
-    setTodos(todos.map((todo) => (todo.id === id ? { ...todo, done } : todo)));
+    dispatch({ type: "done", id, done });
   };
 
   const handleInsertTodo = () => {
     const nextId = todos.length;
-    const newTodos = [
-      ...todos.slice(0, insertAt),
-      { id: nextId, text: todoText, done: false },
-      ...todos.slice(insertAt),
-    ];
-    setTodos(newTodos);
+    dispatch({ type: "added_index", insertAt, nextId, todoText });
     setTodoText("");
   };
 
   const handleReverseTodo = () => {
-    // setTodos([...todos].reverse()); // 원본 배열 변경으로 인해 복사본 생성 후 리버스
-    setTodos(todos.toReversed()); // 원본 배열 변경 되지 않고 새로운 배열을 반환 하므로 바로 리버스 가능
+    dispatch({ type: "reversed" });
   };
 
   return (

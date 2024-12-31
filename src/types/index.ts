@@ -12,3 +12,10 @@ export interface Todo {
   text: string;
   done: boolean;
 }
+
+export type TodoAction =
+  | { type: "added"; newTodo: Todo }
+  | { type: "added_index"; insertAt: number; nextId: number; todoText: string }
+  | { type: "deleted"; id: number }
+  | { type: "done"; id: number; done: boolean }
+  | { type: "reversed" };
