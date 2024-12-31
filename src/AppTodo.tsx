@@ -46,6 +46,11 @@ const AppTodo = () => {
     setTodoText("");
   };
 
+  const handleReverseTodo = () => {
+    // setTodos([...todos].reverse()); // 원본 배열 변경으로 인해 복사본 생성 후 리버스
+    setTodos(todos.toReversed()); // 원본 배열 변경 되지 않고 새로운 배열을 반환 하므로 바로 리버스 가능
+  };
+
   return (
     <div>
       <h2>할 일 목록</h2>
@@ -74,6 +79,7 @@ const AppTodo = () => {
         <button onClick={handleInsertTodo}>추가</button>
       </div>
       <div>preview: {todoText}</div>
+      <button onClick={handleReverseTodo}>Reverse</button>
       <TodoList
         todos={todos}
         onDeleteTodo={handleDeleteTodo}
