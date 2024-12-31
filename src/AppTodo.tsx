@@ -25,7 +25,8 @@ const AppTodo = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    // 한글 입력시 이벤트 두번 실행 되는 이슈 해결
+    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
       handleAddTodo();
     }
   };
