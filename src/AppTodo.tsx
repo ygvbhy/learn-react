@@ -8,6 +8,7 @@ const AppTodo = () => {
     { id: 0, text: "HTML&CSS 공부하기", done: false },
     { id: 1, text: "JavaScript 공부하기", done: false },
   ]);
+  const [insertAt, setInsertAt] = useState(todos.length - 1);
 
   const handleTodoTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodoText(e.target.value);
@@ -34,16 +35,44 @@ const AppTodo = () => {
     setTodos(todos.map((todo) => (todo.id === id ? { ...todo, done } : todo)));
   };
 
+  const handleInsertTodo = () => {
+    const nextId = todos.length;
+    const newTodos = [
+      ...todos.slice(0, insertAt),
+      { id: nextId, text: todoText, done: false },
+      ...todos.slice(insertAt),
+    ];
+    setTodos(newTodos);
+    setTodoText("");
+  };
+
   return (
     <div>
       <h2>할 일 목록</h2>
-      <input
-        type="text"
-        value={todoText}
-        onChange={handleTodoTextChange}
-        onKeyDown={handleKeyDown}
-      />
-      <button onClick={handleAddTodo}>추가</button>
+      <div>
+        <input
+          type="text"
+          value={todoText}
+          onChange={handleTodoTextChange}
+          onKeyDown={handleKeyDown}
+        />
+        <button onClick={handleAddTodo}>추가</button>
+      </div>
+      <div>
+        <select
+          name=""
+          id=""
+          value={insertAt}
+          onChange={(e) => setInsertAt(Number(e.target.value))}
+        >
+          {todos.map((item, index) => (
+            <option value={index} key={item.id}>
+              {index} 번째
+            </option>
+          ))}
+        </select>
+        <button onClick={handleInsertTodo}>추가</button>
+      </div>
       <div>preview: {todoText}</div>
       <TodoList
         todos={todos}
