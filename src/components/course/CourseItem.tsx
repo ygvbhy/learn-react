@@ -8,7 +8,13 @@ const LinkIcon = ({ link }: { link: string }) => {
   );
 };
 
-const CourseItem = ({ course }: { course: Course }) => {
+const CourseItem = ({
+  course,
+  onToggleFavorite,
+}: {
+  course: Course;
+  onToggleFavorite: () => void;
+}) => {
   // const isEmpty = false;
   // if (isEmpty) {
   //   return <p>강의가 없습니다.</p>;
@@ -31,6 +37,7 @@ const CourseItem = ({ course }: { course: Course }) => {
             }
             className="btn__img"
             alt="좋아요"
+            onClick={onToggleFavorite}
           />
         </button>
         {course.link && <LinkIcon link={course.link} />}

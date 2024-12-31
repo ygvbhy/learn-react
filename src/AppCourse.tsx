@@ -1,10 +1,10 @@
 import "./AppCourse.css";
 import CourseCard from "./components/course/CourseCard";
 import React from "react";
-import { Course } from "./types";
+import { useImmer } from "use-immer";
 
 const App: React.FC = () => {
-  const courses: Course[] = [
+  const [courses, updateCourses] = useImmer([
     {
       id: 1,
       title: "입문자를 위한, HTML&CSS 웹 개발 입문",
@@ -28,14 +28,28 @@ const App: React.FC = () => {
       isFavorite: true,
       link: "https://inf.run/YkAN",
     },
-  ];
+  ]);
 
-  const favoriteItems = courses.filter((item) => item.isFavorite);
+  const handleToggleFavorite = (id: number) => {
+    // setCourses(
+    //   courses.map((course) =>
+    //     course.id === id
+    //       ? { ...course, isFavorite: !course.isFavorite }
+    //       : course
+    //   )
+    // );
+    updateCourses((draft) => {
+      const course = draft.find((course) => course.id === id);
+      if (course) course.isFavorite = !course.isFavorite;
+    });
+  };
+
+  // const favoriteItems = courses.filter((item) => item.isFavorite);
 
   return (
     <main style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-      <CourseCard courses={courses} />
-      <CourseCard courses={favoriteItems} />
+      <CourseCard courses={courses} onToggleFavorite={handleToggleFavorite} />
+      {/* <CourseCard courses={favoriteItems} /> */}
     </main>
   );
 };
