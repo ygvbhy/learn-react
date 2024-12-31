@@ -9,5 +9,6 @@ export interface Course {
 
 export interface Todo {
   id: number;
-  label: string;
+  text: string;
+  done: boolean;
 }
