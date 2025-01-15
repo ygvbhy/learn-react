@@ -17,7 +17,6 @@ const TodoList = () => {
   const filteredTodos = getFilteredTodos();
 
   const getStatsCount = () => {
-    console.log("🔥 통계 계산");
     const totalCount = todos?.length;
     const doneCount = todos?.filter((todo) => todo.done).length;
 

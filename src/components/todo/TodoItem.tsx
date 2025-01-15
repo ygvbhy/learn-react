@@ -1,7 +1,10 @@
 import { Todo } from "../../types";
 import { useTodoDispatch } from "../../context/TodoContext";
+import { memo } from "react";
 
-const TodoItem = ({ item }: { item: Todo }) => {
+const TodoItem = memo(({ item }: { item: Todo }) => {
+  console.log("🔥 TodoItem 렌더링");
+  TodoItem.displayName = "TodoItem";
   const dispatch = useTodoDispatch();
 
   const handleDeleteTodo = (id: number) => {
@@ -23,6 +26,6 @@ const TodoItem = ({ item }: { item: Todo }) => {
       <button onClick={() => handleDeleteTodo(item.id)}>X</button>
     </>
   );
-};
+});
 
 export default TodoItem;

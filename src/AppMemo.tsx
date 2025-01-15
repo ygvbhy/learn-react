@@ -1,11 +1,13 @@
-import { useState, memo, useMemo } from "react";
+import { useState, memo, useMemo, useCallback } from "react";
 // 메모이제이션이 적용되지 않은 컴포넌트
 const RegularComponent = ({
   count,
   items = [],
+  onCount,
 }: {
   count: number;
   items: { id: number; text: string; level: number }[];
+  onCount: () => void;
 }) => {
   console.log("RegularComponent 렌더링");
   return (
@@ -17,6 +19,7 @@ const RegularComponent = ({
           <li key={item.id}>{item.text}</li>
         ))}
       </ul>
+      <button onClick={onCount}>카운트 증가</button>
     </fieldset>
   );
 };
@@ -29,9 +32,11 @@ const MemoizedComponent = memo(
   ({
     count,
     items = [],
+    onCount,
   }: {
     count: number;
     items: { id: number; text: string; level: number }[];
+    onCount: () => void;
   }) => {
     MemoizedComponent.displayName = "MemoizedComponent";
     console.log("MemoizedComponent 렌더링");
@@ -44,6 +49,7 @@ const MemoizedComponent = memo(
             <li key={item.id}>{item.text}</li>
           ))}
         </ul>
+        <button onClick={onCount}>카운트 증가</button>
       </fieldset>
     );
   }
@@ -63,6 +69,12 @@ export default function AppMemo() {
       { id: 3, text: "React", level: 2 },
     ];
   }, []);
+
+  // 함수 정의를 캐싱해주는 React Hook
+  // 컴포넌트가 렌더링 될때 함수 정의를 캐싱해서 재렌더링 되지 않음
+  const handleCount = useCallback(() => {
+    setCount(count + 1);
+  }, [count]);
   return (
     <div>
       <h2>컴포넌트 메모이제이션</h2>
@@ -71,8 +83,8 @@ export default function AppMemo() {
         기타 상태 변경
       </button>
       <hr />
-      <RegularComponent count={count} items={courses} />
-      <MemoizedComponent count={count} items={courses} />
+      <RegularComponent count={count} items={courses} onCount={handleCount} />
+      <MemoizedComponent count={count} items={courses} onCount={handleCount} />
     </div>
   );
 }
