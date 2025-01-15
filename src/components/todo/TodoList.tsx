@@ -1,6 +1,6 @@
 import TodoItem from "./TodoItem";
 import { useTodos } from "../../context/TodoContext";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 const TodoList = () => {
   const todos = useTodos();
@@ -16,7 +16,7 @@ const TodoList = () => {
 
   const filteredTodos = getFilteredTodos();
 
-  const getStatsCount = () => {
+  const getStatsCount = useCallback(() => {
     const totalCount = todos?.length;
     const doneCount = todos?.filter((todo) => todo.done).length;
 
@@ -24,9 +24,12 @@ const TodoList = () => {
       totalCount,
       doneCount,
     };
-  };
+  }, [todos]);
 
-  const { totalCount, doneCount } = useMemo(() => getStatsCount(), [todos]);
+  const { totalCount, doneCount } = useMemo(
+    () => getStatsCount(),
+    [getStatsCount]
+  );
 
   return (
     <>
