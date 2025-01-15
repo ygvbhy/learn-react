@@ -1,6 +1,6 @@
 import TodoItem from "./TodoItem";
 import { useTodos } from "../../context/TodoContext";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const TodoList = () => {
   const todos = useTodos();
@@ -17,6 +17,7 @@ const TodoList = () => {
   const filteredTodos = getFilteredTodos();
 
   const getStatsCount = () => {
+    console.log("🔥 통계 계산");
     const totalCount = todos?.length;
     const doneCount = todos?.filter((todo) => todo.done).length;
 
@@ -26,7 +27,7 @@ const TodoList = () => {
     };
   };
 
-  const { totalCount, doneCount } = getStatsCount();
+  const { totalCount, doneCount } = useMemo(() => getStatsCount(), [todos]);
 
   return (
     <>
