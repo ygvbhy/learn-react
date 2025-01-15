@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 
 // let counter = 0;
 
@@ -22,12 +22,34 @@ const ButtonCounter = () => {
   );
 };
 
-const Form = () => {
+const MyForm = forwardRef<HTMLFormElement>((_props, ref) => {
+  MyForm.displayName = "MyForm";
   const [form, setForm] = useState({
-    title: "",
-    author: "",
+    title: "제목",
+    author: "작성자",
     content: "",
   });
+
+  const [isChanged, setIsChanged] = useState(false);
+  const prevForm = useRef<{
+    title: string;
+    author: string;
+    content: string;
+  } | null>(null);
+
+  useEffect(() => {
+    // ex) api fetch ...
+    prevForm.current = { ...form };
+  }, []);
+
+  useEffect(() => {
+    const hasChanged =
+      prevForm.current?.title !== form.title ||
+      prevForm.current?.author !== form.author ||
+      prevForm.current?.content !== form.content;
+
+    setIsChanged(hasChanged);
+  }, [form]);
 
   // 각각의 ref 를 선언 해줌
   const titleInputRef = useRef<HTMLInputElement | null>(null);
@@ -67,52 +89,56 @@ const Form = () => {
     }
   }, [form]);
 
+  // const formRef = useRef<HTMLFormElement | null>(null);
+
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <fieldset>
-          <legend>글쓰기</legend>
-          <input
-            ref={titleInputRef}
-            type="text"
-            name="title"
-            placeholder="제목"
-            value={form.title}
-            onChange={handleChange}
-          />
-          <hr />
-          <input
-            ref={authorInputRef}
-            type="text"
-            name="author"
-            placeholder="작성자"
-            value={form.author}
-            onChange={handleChange}
-          />
-          <hr />
-          <textarea
-            ref={contentInputRef}
-            name="content"
-            placeholder="내용"
-            value={form.content}
-            onChange={handleChange}
-          ></textarea>
-          <hr />
-          <button type="submit">저장</button>
-        </fieldset>
-      </form>
-    </>
+    <form ref={ref} onSubmit={handleSubmit}>
+      <fieldset>
+        <legend>글쓰기</legend>
+        <input
+          ref={titleInputRef}
+          type="text"
+          name="title"
+          placeholder="제목"
+          value={form.title}
+          onChange={handleChange}
+        />
+        <hr />
+        <input
+          ref={authorInputRef}
+          type="text"
+          name="author"
+          placeholder="작성자"
+          value={form.author}
+          onChange={handleChange}
+        />
+        <hr />
+        <textarea
+          ref={contentInputRef}
+          name="content"
+          placeholder="내용"
+          value={form.content}
+          onChange={handleChange}
+        ></textarea>
+        <hr />
+        <button type="submit" disabled={!isChanged}>
+          저장
+        </button>
+      </fieldset>
+    </form>
   );
-};
+});
 
 const AppRef = () => {
+  const myFormRef = useRef<HTMLFormElement | null>(null);
+
   return (
     <>
-      <div>Count</div>
+      <h2>Count</h2>
       <ButtonCounter />
       <ButtonCounter />
       <h2>Form</h2>
-      <Form />
+      <MyForm ref={myFormRef} />
     </>
   );
 };
