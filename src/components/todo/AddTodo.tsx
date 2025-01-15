@@ -20,7 +20,6 @@ const AddTodo = () => {
         onChange={(e) => setTodoText(e.target.value)}
         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
           if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-            console.log(e.currentTarget.value);
             handleAddTodo(e.currentTarget.value);
             setTodoText("");
           }
